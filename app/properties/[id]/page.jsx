@@ -6,10 +6,16 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImg";
 import PropertyDetails from "@/components/PropertyDetails";
 import PropertyImages from "@/components/PropertyImages";
 import { FaArrowLeft } from "react-icons/fa";
+import { convertToSerializableObject } from "@/utils/convertToObject";
 
 const PropertyListingPage = async ({ params }) => {
   await connectDB();
-  const property = await Property.findById(params.id).lean();
+  const propertyDoc = await Property.findById(params.id).lean();
+  const property = convertToSerializableObject(propertyDoc);
+
+  if (!property) {
+    return <h1>Property Not Found</h1>;
+  }
 
   return (
     <>
@@ -32,7 +38,7 @@ const PropertyListingPage = async ({ params }) => {
           </div>
         </div>
       </section>
-      <PropertyImages images={property.images}/>
+      <PropertyImages images={property.images} />
     </>
   );
 };
