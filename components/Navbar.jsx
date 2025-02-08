@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { FaGoogle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const Navbar = () => {
   const [providers, setProviders] = useState(null);
@@ -222,6 +223,7 @@ const Navbar = () => {
                       onClick={() => {
                         setProfileOpen(false);
                         signOut();
+                        redirect("/");
                       }}
                     >
                       Sign Out
